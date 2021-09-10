@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>领祺工业网关智能监控系统</title>
+    <link rel="stylesheet" type="text/css" href="res/css/style.css">
+</head>
+
+<body>
+    <div class="header">
+        <h3>
+            领祺工业网关智能监控系统
+        </h3>
+    </div>
+    <dev class="header-user">
+        <span>
+            <img src="res/img/5-header-user.png">
+            <a href="#" class="menu-btn" value="user">用户</a>
+        </span>
+    </dev>
+    <dev class="header-logout">
+        <span>
+            <img src="res/img/6-header-logout.png">
+            <a href="#" class="menu-btn" value="user-logout">登出</a>
+        </span>
+    </dev>
+    <div class="mainBox">
+        <ul class="leftBox" id="globalNav">
+            <li class="menuItem">
+                <!-- <img src="res/img/0-menu-index.png"> -->
+                <a href="#" class="menu-btn" value="index"><img src="res/img/0-menu-index.png">首页</a>
+            </li>
+            <li class="menuItem">
+                <a href="#" class="menu-btn" value="info"><img src="res/img/1-menu-info.png">网关信息</a>
+            </li>
+            <li class="menuItem">
+                <a href="#" class="menu-btn" value="config"><img src="res/img/2-menu-config.png">基础配置</a>
+                <ul>
+                    <li><a href="#" class="menu-btn" value="ip-config">IP配置</a></li>
+                    <li><a href="#" class="menu-btn" value="uart-config">串口配置</a></li>
+                </ul>
+            </li>
+            <li class="menuItem">
+                <a href="#" class="menu-btn" value="manage"><img src="res/img/3-dev-manage.png">设备管理</a>
+                <ul>
+                    <li><a href="#" class="menu-btn" value="gateway-manage">网关设备</a></li>
+                    <li><a href="#" class="menu-btn" value="sub-dev-manage">子设备</a></li>
+                </ul>
+            </li>
+            <li class="menuItem">
+                <a href="#" class="menu-btn" value="user-manage"><img src="res/img/4-user-manage.png">用户管理</a>
+            </li>
+        </ul>
+        <div class="rightBox">
+            <dev class="rightBox-content">
+                <div class="indexPage page">
+                    <h2 style="text-align: center;">首页</h2>
+                    <hr>
+                </div>
+                <div class="infoPage page" style="display: none;">
+                    <h2 style="text-align: center;">网关信息</h2>
+                    <hr>
+                    <table class="info-table" style="margin-top: 10px; margin-left: 40%;">
+                        <tr>
+                            <td align="right">MAC 地址：</td>
+                            <td><span id="queryMACResult">0C-9C-D1-BC-84-69</span></td>
+                        </tr>
+                        <tr>
+                            <td align="right">IP 地址：</td>
+                            <td><span id="queryIpResult"></span>192.168.71.128</td>
+                        </tr>
+                        <tr>
+                            <td align="right">串口信息：</td>
+                            <td><span id="queryUartResult"></span>11</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="configPage page" style="display: none;">
+                    <h2 style="text-align: center;">基础配置</h2>
+                    <hr>
+                </div>
+                <div class="ip-configPage page" style="display: none;">
+                    <h2 style="text-align: center;">IP配置</h2>
+                    <hr>
+                    <table class="config-table" style="margin-top: 10px; margin-left: 40%;">
+                        <tr>
+                            <td align="right"><a style="color: red;">*</a>IP 地址：</td>
+                            <td><input type="text" name="tb_ipAddr" value="" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><a style="color: red;">*</a>子网掩码：</td>
+                            <td><input type="password1" name="tb_ipMask" value="" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <button type="button" id="ipsetBtn-confirm" onclick=ipSet_upload()>确 定 </button>
+                            </td>
+                            <td align="center">
+                                <button type="button" id="ipsetBtn-cancel" onclick=ipSet_cancel()> 取 消 </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="uart-configPage page" style="display: none;">
+                    <h2 style="text-align: center;">串口配置</h2>
+                    <hr>
+                    <table class="config-table" style="margin-top: 10px; margin-left: 40%;">
+                        <tr>
+                            <td align="right"><a style="color: red;">*</a>串 口ID(Uart ID)：</td>
+                            <td><input type="text" name="tb_uartId" value="" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><a style="color: red;">*</a>协 议(Protocol)：</td>
+                            <td><input type="password1" name="tb_protocol" value="" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><a style="color: red;">*</a>波 特 率(Baud Rate)：</td>
+                            <td><input type="password1" name="tb_baud" value="" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><a style="color: red;">*</a>通 道(Channel)：</td>
+                            <td><input type="password1" name="tb_channel" value="" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">配置文件：</td>
+                            <td><input type="password1" name="tb_cfgFile" value="" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <button type="button" id="uartsetBtn-confirm" onclick=uartSet_upload()> 确 定 </button>
+                            </td>
+                            <td align="center">
+                                <button type="reset" id="uartsetBtn-reset" onclick=uartSet_reset()> 重 置 </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="managePage page" style="display: none;">
+                    <h2 style="text-align: center;">设备管理</h2>
+                    <hr>
+                </div>
+                <div class="gateway-managePage page" style="display: none;">
+                    <h2 style="text-align: center;">网关设备管理</h2>
+                    <hr>
+                </div>
+                <div class="sub-dev-managePage page" style="display: none;">
+                    <h2 style="text-align: center;">子设备管理</h2>
+                    <hr>
+                </div>
+                <div class="user-managePage page" style="display: none;">
+                    <h2 style="text-align: center;">用户管理</h2>
+                    <hr>
+                </div>
+            </dev>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="res/js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="res/js/menu.js"></script>
+</body>
+
+</html>

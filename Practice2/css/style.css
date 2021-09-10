@@ -1,0 +1,44 @@
+.shadowbox {
+    width: 15em;
+    border: 1px solid #333;
+    box-shadow: 8px 8px 5px #444;
+    padding: 8px 12px;
+    background-image: linear-gradient(180deg, #fff, #ddd 40%, #ccc);
+}
+
+.web-content-title {
+    vertical-align: middle;
+}
+
+.web-content-title .span1 {
+    font-size: 40px;
+    padding-left: 70px;
+}
+
+.table {
+    border: 0em;
+    display: table;
+    border-collapse: collapse;
+    width: 400px;
+    height: 200px;
+}
+
+.tr {
+    display: table-row;
+    height: 100px;
+}
+
+.td {
+    display: table-cell;
+    width: 100px;
+    text-align: center;
+    vertical-align: middle;
+    border: solid 1px red;
+    table-layout: fixed;
+}
+
+.table .td img {
+    width: 100px;
+    height: 100px;
+    display: block;
+}

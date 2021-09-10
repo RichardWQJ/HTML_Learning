@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>导航</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <style type="text/css">
+        /*全局样式*/
+        * {
+            margin: 0;
+            /*清除默认外边距*/
+            padding: 0;
+            /*清除默认内边距*/
+            list-style: none;
+            /*清除ul、li便签前面的点*/
+        }
+
+        /*页面整体样式*/
+        .nav {
+            width: 700px;
+            /*宽度700*/
+            margin: 0 auto;
+            /*整体居中*/
+            margin-top: 20px;
+            /*距离网页顶端20*/
+            border: 1px solid blue;
+            /*加一个1px实线蓝色边框*/
+        }
+
+        /*公共导航栏ul标签*/
+        ul {
+            margin-top: 30px;
+            /*距离上部30px*/
+        }
+
+        /*导航栏ul标签的li子标签*/
+        ul>li {
+            float: left;
+            /*整体左浮动*/
+            margin-left: 60px;
+            /*距离左边元素60*/
+            width: 100px;
+            /*宽度100*/
+            height: 2em;
+            /*高度两个字符*/
+            line-height: 2em;
+            /*垂直居中*/
+            text-align: center;
+            /*水平居中*/
+            border: 1px solid #efefef;
+            /*加一个1px实线浅灰色边框*/
+            border-radius: 1em;
+            /*加一个宽一个字符的圆角*/
+        }
+
+        /*鼠标悬停到li标签时*/
+        .nav>ul>li:hover {
+            border: 1px solid pink;
+            /*加一个1px实线粉色边框*/
+        }
+
+        /*网页主体内容公共模块*/
+        .nav .one {
+            width: 600px;
+            /*宽度60*/
+            margin: 0 50px 50px;
+            /*距离上部0px,距离左右50px，距离下部50px*/
+        }
+
+        /*网页主体内容公共模块下的每个子模块公共样式*/
+        .nav .one>div {
+            padding: 20px;
+            /*内边距20*/
+        }
+
+        /*网页主体内容公共模块下的每个子模块公共样式*/
+        .nav .one>div>p {
+            line-height: 2em;
+            /*垂直居中*/
+            text-indent: 2em;
+            /*文本首行缩进2字符*/
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 整体页面 -->
+    <div class="nav">
+        <!-- 导航栏 -->
+        <ul class="ul">
+            <!-- 导航栏子标签 -->
+            <li>
+                <span class="one_icon nav_btn" value="one">one</span>
+            </li>
+            <!-- 导航栏子标签 -->
+            <li>
+                <span class="one_icon nav_btn" value="two">two</span>
+            </li>
+            <!-- 导航栏子标签 -->
+            <li>
+                <span class="one_icon nav_btn" value="three">three</span>
+            </li>
+            <!-- 导航栏子标签 -->
+            <li>
+                <span class="one_icon nav_btn" value="four">four</span>
+            </li>
+        </ul>
+
+        <!-- 换行使页面可视化效果更好 -->
+        <br><br>
+
+        <!-- 分页内容存放区 -->
+        <div class="one">
+
+            <!-- 第一页内容 -->
+            <div class="onePage page">
+                <p>百度、谷歌等网站之所以能很快在海量数据中找到需要的数据，得益于其搜索引擎，本文将介绍搜索引擎的基本知识及中文分词的方法，并通过demo演示如何进行数据检索。</p>
+            </div>
+
+            <!-- 第二页内容 -->
+            <div class="twoPage page" style="display: none; background: pink">
+                <p>本文以示例的形式，由浅入深讲解Nginx限流相关配置，是对简略的 "官方文档" 的积极补充。 Nginx限流使用的是leaky bucket算法，如对算法感兴趣，可移步 "维基百科"
+                    先行阅读。不过不了解此算法，不影响阅读本文。 </p>
+            </div>
+
+            <!-- 第三页内容 -->
+            <div class="threePage page" style="display: none; color: teal">
+                <p>引言
+                    网络上版本管理系统之争持久而喧嚣，依照声量来讲目前应该是Git占了较大的优势。不过我们本文的关注点在于代码的分支管理模型，因为大家无论是用SVN或者Git，目的是为了解决研发过程管理中的实际问题。我这里整理几种分支管理模型，这样大家可以对照自己的痛点选择合适的模型。
+                </p>
+            </div>
+
+            <!-- 第四页内容 -->
+            <div class="fourPage page" style="display: none; border: 1px solid #ccc">
+                <p>本文是内部的一次分享沉淀，偏向基础但是涉及了一些有意思的细节，文笔有限，才疏学浅，文中若有不正之处，万望告知。
+                    前端的一大工作内容就是去兼容页面在不同内核的浏览器，不同的设备，不同的分辨率下的行为，使页面的能正常工作在各种各样的宿主环境当中。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 不需要网页跳转，可分页显示内容的JS部分 -->
+    <script type="text/javascript">
+        // 定义按钮函数
+        $('.nav_btn').click(function () {
+
+            // 获取按钮名字
+            var pageName = $(this).attr('value');
+            // 获取按钮类名
+            var pageClass = '.' + pageName + 'Page';
+
+            // 背景跳转
+            $('.nav_btn').css('background', '');
+
+            // 非按钮对应页面隐藏
+            $('.page').css('display', 'none');
+
+            // 按钮对应页面显示
+            $(pageClass).css('display', 'block');
+        })
+    </script>
+</body>
+
+</html>

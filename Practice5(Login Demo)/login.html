@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta content="text/html" charset="utf-8">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/supersized.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+
+<body>
+    <!-- Login Page Content -->
+    <div class="page-container">
+        <div class="wrapper">
+            <h1>领祺工业网关智能监控系统</h1>
+            <div class="container">
+                <strong><span style="font-weight: bold;font-size: 25px;">登 录</span></strong>
+                <form action="">
+                    <input type="text" id="user" name="name" font color="red" placeholder="Username">
+                    <input type="password" id="password" name="password" placeholder="Password">
+                    <button type="button" id="login-button" onclick=loginBtn_click()> 登 录 </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inner Inline JavaScript -->
+    <script type="text/javascript">
+        var xmlhttp;
+        function load_info(url, userName, passwd, cfunc) {
+            if (window.XMLHttpRequest) {
+                // IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {
+                // IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            var strData = "username=" + userName + "&password=" + passwd;
+            xmlhttp.open("POST", url);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xmlhttp.send(strData);
+
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    var resValue = xmlhttp.responseText;
+                    if (resValue == "1") {
+                        alert("用户名或密码错误，请重新输入!");
+                        window.location.href = "login.html";
+                    } else if (resValue == "2") {
+                        alert("登陆成功......");
+                        // 添加Cookie
+                        
+                        window.location.href = "control/control.html";
+
+                    }
+                }
+            }
+        }
+
+        function login_judge() {
+            if (window.XMLHttpRequest) {
+                // IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {
+                // IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            var userName = document.getElementById("user").value;
+            var passwd = document.getElementById("password").value;
+            load_info("/cgi-bin/user-judge.bin", userName, passwd, function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("txtHint").innerHTML = xmlhttp.responseText;
+                }
+            });
+        }
+
+        function loginBtn_click() {
+            var user_val = document.getElementById("user").value;
+            var password_val = document.getElementById("password").value;
+            if (user_val == "") {
+                alert("用户名不能为空！！");
+                window.location.href = "login.html";
+            } else if (password_val == "") {
+                alert("密码不能为空！！！");
+                window.location.href = "login.html";
+            } else {
+                login_judge();
+            }
+        }
+    </script>
+    <!-- JavaScript Link -->
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="assets/js/supersized.3.2.7.min.js"></script>
+    <script type="text/javascript" src="assets/js/supersized-init.js"></script>
+    <script type="text/javascript" src="assets/js/scripts.js"></script>
+</body>
+
+</html>

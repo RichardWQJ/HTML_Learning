@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>领祺工业网关</title>
+    <link rel="stylesheet" type="text/css" href="res/css/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <a href="#">
+                <img src="res/img/logo.png" name="Insert_logo" id="Insert_logo" />
+            </a>
+            <!-- end .header -->
+        </div>
+        <div class="sidebar1">
+            <ul class="nav">
+                <style>
+                    li {
+                        text-align: center;
+                    }
+                </style>
+                <li>
+                    <form id="form1" method="GET" action="./control.html"></form>
+                    <a href="#" onclick="document.getElementById('form1').submit();">首页</a>
+                </li>
+                <li>
+                    <form id="form2" method="GET" action="./info.html"></form>
+                    <a href="#" onclick="document.getElementById('form2').submit();">网关信息</a>
+                </li>
+                <li>
+                    <form id="form3" method="GET" action="./config.html"></form>
+                    <a href="#" onclick="document.getElementById('form3').submit();">基础配置</a>
+                </li>
+                <li>
+                    <form id="form4" method="GET" action="./manage.html"></form>
+                    <a href="#" onclick="document.getElementById('form4').submit();">设备管理</a>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <style>
+                h1 {
+                    text-align: center;
+                }
+            </style>
+            <h1>基础配置</h1>
+            <hr>
+            <form id="form1" method="GET" action="../cgi_bin/config.bin">
+                <p1>
+                    静&nbsp;态&nbsp;IP:
+                    <input type="text" name="static_ip" />
+                    <input type="submit" name="submit" value="提交" placeholder="请输入静态IP: "
+                        style="width: 120px;position: relative;left: 20px;" />
+                </p1>
+            </form>
+            <br>
+            <form id="form2" method="GET" action="../cgi_bin/config.bin">
+                <p2>
+                    串口信息:
+                    <input type="text" name="serial_info" />
+                    <input type="submit" name="submit" value="提交" placeholder="请输入串口信息: "
+                        style="width: 120px;position: relative;left: 20px;" />
+                </p2>
+            </form>
+        </div>
+        <div _ngcontent-c5="" class="footer">
+            <style>
+                p {
+                    text-align: center;
+                }
+            </style>
+            <p>网关型号：ZH-A0107 系统版本：1.1.0.0</p>
+        </div>
+        <!-- end .container -->
+    </div>
+</body>
+
+</html>
