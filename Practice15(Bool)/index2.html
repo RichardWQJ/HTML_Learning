@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+        }
+
+        div {
+            height: 100px;
+            width: 100px;
+            background: red;
+            position: absolute;
+        }
+
+        /*添加绝对定位*/
+    </style>
+    <script>
+        window.onload = function () {
+            var btn = document.getElementById("btn");
+            var div = document.getElementById("div");
+            var speedx = 6;
+            var speedy = 8;
+            var t = null;
+            btn.onclick = function () {
+                clearInterval(t);
+                t = setInterval(function () {
+                    var l = div.offsetLeft + speedx;
+                    var t = div.offsetTop + speedy;
+
+                    if (l >= document.documentElement.clientWidth - div.offsetWidth) {
+                        speedx *= -1;
+                        l = document.documentElement.clientWidth - div.offsetWidth;
+                    } else if (l <= 0) {
+                        speedx *= -1;
+                        l = 0;
+                    }
+                    if (t >= document.documentElement.clientHeight - div.offsetHeight) {
+                        speedy *= -1;
+                        t = document.documentElement.clientHeight - div.offsetHeight;
+                    } else if (t <= 0) {
+                        speedy *= -1;
+                        t = 0;
+                    }
+                    div.style.left = l + "px";
+                    div.style.top = t + "px";
+                }, 10);
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <input type="button" id="btn" value="开始运动">
+    <div id="div"></div>
+</body>
+
+</html>

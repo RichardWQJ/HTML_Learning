@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>弹窗测试</title>
+    <link href="css/index_test.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div class="main">
+        <button id="btn-modifyPasswd"> 密码修改 </button>
+        <div class="modify-passwd-dialog">
+            <div class="dialog-header">
+                <div class="header-text">用户密码修改</div>
+                <div class="dialog-close-text">X</div>
+            </div>
+            <hr>
+            <div class="dialog-body">
+                <input type="text" id="old-password" name="old-password" placeholder="&nbsp;旧密码:">
+            </div>
+            <br>
+            <div class="dialog-body">
+                <input type="password" id="new-password" name="new-password" placeholder="&nbsp;新密码:">
+            </div>
+            <br>
+            <div class="dialog-body">
+                <input type="password" id="repeat-password" name="repeat-password" placeholder="&nbsp;再次输入新密码:">
+            </div>
+            <br>
+            <div>
+                <div class="dialog-body">
+                    <button type="button" id="btn-modify-confirm" style="width:48%; float: left;"
+                        onclick=modifyPasswd()>确认
+                    </button>
+                </div>
+                <div class="dialog-body">
+                    <button type="button" id="btn-modify-cancle" style="width:48%; float: right;"
+                        onclick=modifyCancle()>取消
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/index_test.js"></script>
+</body>
+
+</html>

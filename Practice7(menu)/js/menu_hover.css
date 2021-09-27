@@ -1,0 +1,22 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.one li {
+    width: 80px;
+    height: 40px;
+    margin: 2px;
+    background: #d8d8d8;
+    float: left;
+    text-align: center;
+    line-height: 40px;
+}
+
+.two {
+    width: 80px;
+    height: 160px;
+    background: #666;
+    display: none;
+}

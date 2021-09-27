@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>俄罗斯方块</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .gamediv {
+            width: 250px;
+            height: 420px;
+        }
+
+        #maindiv {
+            width: 250px;
+            height: 400px;
+            border: 1px solid #95a0aa;
+        }
+
+        #tableid {
+            borderColor: white;
+            width: 100%;
+            height: 100%;
+            border-collapse: collapse;
+        }
+
+        #tableid td {
+            border: solid white 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="maindiv">
+        <table id="tableid"></table><span id="fensId">0分</span>
+    </div>
+    <script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+    <script>
+
+        //---------------------------------------生成地图--------------------------------
+        var tablee = document.getElementById("tableid");
+        for (var tr = 0; tr < 18; tr++) {
+            var tre = document.createElement("tr");
+            for (var td = 0; td < 12; td++) {
+                tre.appendChild(document.createElement("td"));
+            }
+            tablee.appendChild(tre);
+        }
+
+        //--------------------------------图形库---------------------------------------
+        var icon = [
+            [{ x: 0, y: 5 }, { x: 1, y: 5 }, { x: 2, y: 5 }, { x: 3, y: 5 }],   //0:  |
+            [{ x: 0, y: 4 }, { x: 0, y: 5 }, { x: 0, y: 6 }, { x: 0, y: 7 }],   //1:   ---
+            [{ x: 0, y: 5 }, { x: 0, y: 6 }, { x: 1, y: 5 }, { x: 1, y: 6 }],   //2:  田
+            [{ x: 0, y: 5 }, { x: 1, y: 5 }, { x: 2, y: 5 }, { x: 2, y: 6 }],   //3:  L
+            [{ x: 0, y: 5 }, { x: 0, y: 6 }, { x: 1, y: 6 }, { x: 2, y: 6 }],   //4:  7
+            [{ x: 0, y: 4 }, { x: 1, y: 4 }, { x: 1, y: 5 }, { x: 1, y: 6 }],   //5:L__
+            [{ x: 0, y: 4 }, { x: 0, y: 5 }, { x: 1, y: 5 }, { x: 1, y: 6 }],   //6:z
+            [{ x: 0, y: 5 }, { x: 1, y: 5 }, { x: 1, y: 6 }, { x: 2, y: 6 }],   //7:L7
+            [{ x: 2, y: 5 }, { x: 1, y: 5 }, { x: 1, y: 6 }, { x: 0, y: 6 }]    //8:s
+        ];
+        //-----------------------------游戏配置参数---------------------------------------
+        var ii = 0;   //图形号；
+        var i = 0;     //下落的最初数
+        var j = 0;     //左右偏移的数
+        var score = 0;
+        var Frequency = 100;    //游戏检测频率
+        var bottomnumber = 17;  //探测是否到最低
+        var mainThread = setInterval(mainGame, Frequency);   //启动游戏
+        var dropThread = setInterval(dropFunction, 1000);  //下落线程
+        var safeChange = true;
+        var gamelife = true;
+        var goon = false;
+        var dx001, dx002, dx003, dx004, dy001, dy002, dy003, dy004;
+        //------------------------------------------游  戏  主  程   序-------------------------
+
+        function mainGame() {
+            safeChange = true;
+            dx001 = icon[ii][0].x + i;   //行 往下移！
+            dx002 = icon[ii][1].x + i;
+            dx003 = icon[ii][2].x + i;
+            dx004 = icon[ii][3].x + i;
+
+            dy001 = icon[ii][0].y + j;    //列 键盘控制左右！
+            dy002 = icon[ii][1].y + j;
+            dy003 = icon[ii][2].y + j;
+            dy004 = icon[ii][3].y + j;
+
+            if (safeChange) {
+                $(".vigour").removeAttr("class").css("background", "transparent");
+                $($("tr")[dx001]).find("td").eq(dy001).attr("class", "vigour").css("background", "red");
+                $($("tr")[dx002]).find("td").eq(dy002).attr("class", "vigour").css("background", "red");
+                $($("tr")[dx003]).find("td").eq(dy003).attr("class", "vigour").css("background", "red");
+                $($("tr")[dx004]).find("td").eq(dy004).attr("class", "vigour").css("background", "red");
+            }
+            if (dx001 > bottomnumber - 1 || dx002 > bottomnumber - 1 || dx003 > bottomnumber - 1 || dx004 > bottomnumber - 1) {
+                if (gamelife) nowicon();
+                return false;
+            }
+            if (($($("tr")[dx001 + 1]).find("td").eq(dy001).attr("class") == "none") || ($($("tr")[dx002 + 1]).find("td").eq(dy002).attr("class") == "none") || ($($("tr")[dx003 + 1]).find("td").eq(dy003).attr("class") == "none") || ($($("tr")[dx004 + 1]).find("td").eq(dy004).attr("class") == "none")) {
+                if (gamelife) nowicon();
+                return false;
+            }
+
+        };
+
+
+        //---------------------------下落后检查是否有消除----------------
+
+        function downloadcheck() {
+            $("tr").each(function (e) {
+                var number = 0;
+                $($("tr")[e]).find("td").each(function () {
+                    if ($(this).attr("class") == "none") {
+                        if (e != 0) {
+                            number++;
+                        } else {
+                            gamelife = false;
+                            clearInterval(dropThread);
+                            clearInterval(mainThread);
+                            $(".vigour").attr("class", "none").css("background", "#95a0aa");
+                            alert("Game Over!");
+                            alert("键盘失效，请用鼠标刷新");
+                            return false;
+                        }
+
+                    }
+                });
+                if (number == 12) {
+                    $($("tr")[e]).remove();
+                    var tre = "<tr>";
+                    for (var td = 0; td < 12; td++) {
+                        tre += "<td></td>"
+                    }
+                    $("tr").eq(0).before(tre + "</tr>");
+                    $("#fensId").html(++score + "分");
+                }
+
+            });
+        }
+
+        //------------------------------下降频率线程-----------------------
+        function dropFunction() {
+            if (i > bottomnumber) {
+                nowicon();
+            } else {
+                i++;
+            }
+        }
+        //---------------------------方块停止后的事件------------------------
+        function nowicon() {
+            safeChange = false;
+            clearInterval(mainThread);
+            $(".vigour").attr("class", "none").css("background", "#95a0aa");
+            downloadcheck();
+            ii = Math.floor(Math.random() * (icon.length));
+            i = 0;
+            j = 0;
+            mainThread = setInterval(mainGame, Frequency);
+        }
+
+        //------------------------------键盘事件-------------------------
+        $(document).keydown(function (e) {
+            if (!gamelife) return false;
+            switch (e.keyCode) {
+                case 37://左
+                    if (($($("tr")[dx001]).find("td").eq(dy001 - 1).attr("class") == "none") || ($($("tr")[dx002]).find("td").eq(dy002 - 1).attr("class") == "none") || ($($("tr")[dx003]).find("td").eq(dy003 - 1).attr("class") == "none") || ($($("tr")[dx004]).find("td").eq(dy004 - 1).attr("class") == "none")) {
+                    } else {
+                        var y001 = icon[ii][0].y + j;
+                        var y002 = icon[ii][1].y + j;
+                        var y003 = icon[ii][2].y + j;
+                        var y004 = icon[ii][3].y + j;
+                        if (y001 > 0 && y002 > 0 && y003 > 0 && y004 > 0) {
+                            --j;
+                        }
+                    }
+                    break;
+                case 38://上
+                    if (ii == 0) {
+                        ii = 1;
+                    } else if (ii == 1) {
+                        ii = 0;
+                    } else if (ii == 3) {
+                        ii = 4;
+                    } else if (ii == 4) {
+                        ii = 5;
+                    } else if (ii == 5) {
+                        ii = 3;
+                    } else if (ii == 6) {
+                        ii = 7;
+                    } else if (ii == 7) {
+                        ii = 8;
+                    } else if (ii == 8) {
+                        ii = 6;
+                    }
+                    leftBoundary();
+                    rightBoundary();
+
+                    break;
+                case 39://右
+                    if (($($("tr")[dx001]).find("td").eq(dy001 + 1).attr("class") == "none") || ($($("tr")[dx002]).find("td").eq(dy002 + 1).attr("class") == "none") || ($($("tr")[dx003]).find("td").eq(dy003 + 1).attr("class") == "none") || ($($("tr")[dx004]).find("td").eq(dy004 + 1).attr("class") == "none")) {
+                    } else {
+                        var y001 = icon[ii][0].y + j;
+                        var y002 = icon[ii][1].y + j;
+                        var y003 = icon[ii][2].y + j;
+                        var y004 = icon[ii][3].y + j;
+                        if (y001 < 11 && y002 < 11 && y003 < 11 && y004 < 11) {
+                            ++j;
+                        }
+                    }
+                    break;
+                case 40://下
+                    if (($($("tr")[dx001 + 1]).find("td").eq(dy001).attr("class") == "none") || ($($("tr")[dx002 + 1]).find("td").eq(dy002).attr("class") == "none") || ($($("tr")[dx003 + 1]).find("td").eq(dy003).attr("class") == "none") || ($($("tr")[dx004 + 1]).find("td").eq(dy004).attr("class") == "none")) {
+                        nowicon();
+                    } else if (i < bottomnumber) {
+                        clearInterval(mainThread);
+                        i++;
+                        mainGame();
+                        mainThread = setInterval(mainGame, Frequency)
+                    }
+                    break;
+            }
+
+        });
+
+        //防止变换的时候越界(左边)
+        function leftBoundary() {
+
+            var y001 = icon[ii][0].y + j;
+            var y002 = icon[ii][1].y + j;
+            var y003 = icon[ii][2].y + j;
+            var y004 = icon[ii][3].y + j;
+
+            if (y001 < 0 || y002 < 0 || y003 < 0 || y004 < 0) {
+                y001++;
+                y002++;
+                y003++;
+                y004++;
+                safeChange = false;
+                j++;
+                dy001 = y001;
+                dy002 = y002;
+                dy003 = y003;
+                dy004 = y004;
+                leftBoundary();
+            }
+
+        }
+
+        //防止变换的时候越界(右边)
+        function rightBoundary() {
+            var y001 = icon[ii][0].y + j;
+            var y002 = icon[ii][1].y + j;
+            var y003 = icon[ii][2].y + j;
+            var y004 = icon[ii][3].y + j;
+
+            if (y001 > 11 || y002 > 11 || y003 > 11 || y004 > 11) {
+                y001--;
+                y002--;
+                y003--;
+                y004--;
+                safeChange = false;
+                j--;
+                dy001 = y001;
+                dy002 = y002;
+                dy003 = y003;
+                dy004 = y004;
+                rightBoundary();
+            }
+        }
+
+    </script>
+</body>
+
+</html>

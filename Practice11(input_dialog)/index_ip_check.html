@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>IP地址校验测试</title>
+    <link href="css/index_test.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div class="main">
+        <button id="btn-modifyPasswd"> IP校验开始 </button>
+        <div class="modify-passwd-dialog">
+            <div class="dialog-header">
+                <div class="header-text">IP校验</div>
+                <div class="dialog-close-text">X</div>
+            </div>
+            <hr>
+            <div class="dialog-body">
+                <input type="text" id="old-password" name="old-password" placeholder="&nbsp;静态IP:">
+            </div>
+            <br>
+            <div class="dialog-body">
+                <input type="text" id="new-password" name="new-password" placeholder="&nbsp;IP掩码:">
+            </div>
+            <br>
+            <div>
+                <div class="dialog-body">
+                    <button type="button" id="btn-modify-confirm" style="width:48%; float: left;"
+                        onclick=modifyPasswd()>确认
+                    </button>
+                </div>
+                <div class="dialog-body">
+                    <button type="button" id="btn-modify-cancle" style="width:48%; float: right;"
+                        onclick=modifyCancle()>取消
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/index_ip.js"></script>
+</body>
+
+</html>
